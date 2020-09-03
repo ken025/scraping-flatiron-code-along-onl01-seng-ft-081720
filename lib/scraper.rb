@@ -15,20 +15,14 @@ class Scraper
       end
     end
   end
-  require 'nokogiri'
-require 'open-uri'
-require 'pry'
+    def get_page
  
-require_relative './course.rb'
+    doc = Nokogiri::HTML(open("http://learn-co-curriculum.github.io/site-for-scraping/courses"))
  
-class Scraper
- 
-  def get_page
-      # more code coming soon!
+    doc.css(".post").each do |post|
+      course = Course.new
+      course.title = post.css("h2").text
+      course.schedule = post.css(".date").text
+      course.description = post.css("p").text
+    end
   end
- 
-end
-end
-
-
-
